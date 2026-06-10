@@ -33,7 +33,7 @@ export const navItems: NavItem[] = [
 export const hero = {
   eyebrow: "סטודיו לעיצוב שיער · נוסד ב-2014",
   titleTop: "עיצוב שיער אלגנטי",
-  titleBottom: "מבית זאקוטו",
+  titleBottom: "מבית זקוטו",
   description:
     "סטודיו מודרני שבו תספורת מדויקת, צבע זוהר ועיצוב טבעי נפגשים יחד. אנחנו מתאימים כל מראה במיוחד עבורכם — מוקפד, נוח לתחזוקה ובהחלט שלכם.",
   primaryCta: { label: "לקביעת תור", href: "#contact" },
@@ -182,6 +182,12 @@ export const testimonials: Testimonial[] = [
   },
 ];
 
+/**
+ * WhatsApp business number in international format (digits only, no “+”).
+ * Used to build wa.me deep links from the contact form / buttons.
+ */
+export const whatsappNumber = "0523653656";
+
 export const contact = {
   eyebrow: "בואו לבקר",
   title: "קבעו את השינוי שלכם",
@@ -191,9 +197,9 @@ export const contact = {
     { label: "כתובת", value: "שדרות רוטשילד 24, תל אביב" },
     { label: "טלפון", value: "050-000-0000", href: "tel:+972500000000" },
     {
-      label: "אימייל",
-      value: "hello@zakutohair.com",
-      href: "mailto:hello@zakutohair.com",
+      label: "וואטסאפ",
+      value: "שלחו לנו הודעה",
+      href: `https://wa.me/${whatsappNumber}`,
     },
   ],
   hours: [
@@ -204,6 +210,6 @@ export const contact = {
   socials: [
     { label: "Instagram", href: "#" },
     { label: "Facebook", href: "#" },
-    { label: "WhatsApp", href: "#" },
+    { label: "WhatsApp", href: `https://wa.me/${whatsappNumber}` },
   ],
 };

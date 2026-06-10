@@ -2,24 +2,58 @@
 
 import { useId, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { services } from "@/lib/site";
-import { ArrowRightIcon } from "@/components/icons";
+import { services, whatsappNumber } from "@/lib/site";
+import { ArrowRightIcon, WhatsAppIcon } from "@/components/icons";
 
 const fieldClass =
   "w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-stone/60 transition-colors duration-200 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/30";
 
 const labelClass = "text-sm font-medium text-ink";
 
+/** Israeli mobile numbers are exactly 10 digits (e.g. 0501234567). */
+function isValidPhone(value: string) {
+  return /^\d{10}$/.test(value.replace(/\D/g, ""));
+}
+
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [phoneError, setPhoneError] = useState<string | null>(null);
   const nameId = useId();
-  const emailId = useId();
+  const phoneId = useId();
+  const phoneErrorId = useId();
   const serviceId = useId();
   const messageId = useId();
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    // No backend wired up — surface an optimistic confirmation.
+
+    if (!isValidPhone(phone)) {
+      setPhoneError("יש להזין מספר טלפון תקין בן 10 ספרות.");
+      return;
+    }
+    setPhoneError(null);
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const name = (data.get("name") as string)?.trim() || "—";
+    const service = (data.get("service") as string)?.trim() || "—";
+    const note = (data.get("message") as string)?.trim();
+
+    // Build a clear WhatsApp message and open the chat with our studio.
+    const lines = [
+      "שלום! אשמח לקבוע תור 💇",
+      `שם: ${name}`,
+      `טלפון: ${phone}`,
+      `שירות: ${service}`,
+    ];
+    if (note) lines.push(`הערה: ${note}`);
+
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      lines.join("\n"),
+    )}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+
     setSubmitted(true);
   }
 
@@ -42,8 +76,8 @@ export function ContactForm() {
               הבקשה התקבלה
             </h3>
             <p className="max-w-sm text-sm text-stone">
-              תודה — נאשר את התור שלכם תוך יום עסקים אחד. שווה לעקוב אחרי תיבת
-              המייל.
+              תודה — נפתחה עבורכם שיחת וואטסאפ עם ההודעה. שלחו אותה ונחזור אליכם
+              תוך יום עסקים אחד.
             </p>
             <button
               type="button"
@@ -78,18 +112,35 @@ export function ContactForm() {
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label htmlFor={emailId} className={labelClass}>
-                  אימייל
+                <label htmlFor={phoneId} className={labelClass}>
+                  טלפון
                 </label>
                 <input
-                  id={emailId}
-                  name="email"
-                  type="email"
+                  id={phoneId}
+                  name="phone"
+                  type="tel"
+                  inputMode="numeric"
                   required
-                  autoComplete="email"
-                  placeholder="you@email.com"
-                  className={fieldClass}
+                  autoComplete="tel"
+                  dir="ltr"
+                  maxLength={10}
+                  placeholder="0501234567"
+                  aria-invalid={phoneError ? "true" : undefined}
+                  aria-describedby={phoneError ? phoneErrorId : undefined}
+                  value={phone}
+                  onChange={(event) => {
+                    setPhone(event.target.value.replace(/\D/g, ""));
+                    if (phoneError) setPhoneError(null);
+                  }}
+                  className={`${fieldClass} text-right ${
+                    phoneError ? "border-red-500 focus:border-red-500 focus:ring-red-500/30" : ""
+                  }`}
                 />
+                {phoneError ? (
+                  <p id={phoneErrorId} className="text-xs text-red-600">
+                    {phoneError}
+                  </p>
+                ) : null}
               </div>
             </div>
 
@@ -132,7 +183,8 @@ export function ContactForm() {
               type="submit"
               className="group mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-cream transition-all duration-300 hover:bg-gold hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gold/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
             >
-              שליחת בקשה לתור
+              <WhatsAppIcon className="h-4 w-4" />
+              שליחת בקשה בוואטסאפ
               <ArrowRightIcon className="h-4 w-4 -scale-x-100 transition-transform duration-300 group-hover:translate-x-1" />
             </button>
           </motion.form>

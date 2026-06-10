@@ -1,7 +1,12 @@
-import { contact } from "@/lib/site";
+import { contact, whatsappNumber } from "@/lib/site";
 import { Container, SectionHeading } from "@/components/ui";
 import { Reveal } from "@/components/motion/primitives";
 import { ContactForm } from "@/components/sections/ContactForm";
+import { WhatsAppIcon } from "@/components/icons";
+
+const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+  "שלום! אשמח לקבל פרטים ולקבוע תור 💇",
+)}`;
 
 export function Contact() {
   return (
@@ -37,6 +42,16 @@ export function Contact() {
                 </div>
               ))}
             </dl>
+
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex w-fit items-center justify-center gap-2 rounded-full bg-[#25D366] px-7 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#25D366]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
+            >
+              <WhatsAppIcon className="h-5 w-5" />
+              צרו קשר בוואטסאפ
+            </a>
 
             <div className="flex flex-col gap-3 border-t border-ink/10 pt-6">
               <span className="text-xs font-medium uppercase tracking-[0.18em] text-gold">
