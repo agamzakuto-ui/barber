@@ -186,7 +186,7 @@ export const testimonials: Testimonial[] = [
  * WhatsApp business number in international format (digits only, no “+”).
  * Used to build wa.me deep links from the contact form / buttons.
  */
-export const whatsappNumber = "0523653656";
+export const whatsappNumber = "0535266828";
 
 export const contact = {
   eyebrow: "בואו לבקר",
