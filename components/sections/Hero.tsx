@@ -24,12 +24,12 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative overflow-hidden bg-cream pt-[var(--spacing-header)]"
+      className="relative overflow-hidden bg-background pt-[var(--spacing-header)]"
     >
       {/* Soft decorative wash */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-40 -top-24 h-[32rem] w-[32rem] rounded-full bg-gold/10 blur-3xl"
+        className="pointer-events-none absolute -right-40 -top-24 h-[32rem] w-[32rem] rounded-full bg-secondary/10 blur-3xl"
       />
       <Container className="relative grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-2 lg:gap-16 lg:py-28">
         <motion.div
@@ -40,25 +40,25 @@ export function Hero() {
         >
           <motion.span
             variants={item}
-            className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.22em] text-gold"
+            className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.22em] text-secondary"
           >
-            <span aria-hidden className="h-px w-8 bg-gold/60" />
+            <span aria-hidden className="h-px w-8 bg-secondary/60" />
             {hero.eyebrow}
           </motion.span>
 
           <motion.h1
             variants={item}
-            className="text-4xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl"
+            className="text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl"
           >
             {hero.titleTop}
-            <span className="mt-2 block font-serif italic text-gold">
+            <span className="mt-2 block font-serif italic text-secondary">
               {hero.titleBottom}
             </span>
           </motion.h1>
 
           <motion.p
             variants={item}
-            className="max-w-md text-base leading-relaxed text-stone sm:text-lg"
+            className="max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg"
           >
             {hero.description}
           </motion.p>
@@ -67,7 +67,7 @@ export function Hero() {
             variants={item}
             className="flex flex-col gap-3 sm:flex-row sm:items-center"
           >
-            <ButtonLink href={hero.primaryCta.href}>
+            <ButtonLink href={hero.primaryCta.href} variant="cta">
               {hero.primaryCta.label}
               <ArrowRightIcon className="h-4 w-4 -scale-x-100 transition-transform duration-300 group-hover:translate-x-1" />
             </ButtonLink>
@@ -78,14 +78,14 @@ export function Hero() {
 
           <motion.dl
             variants={item}
-            className="mt-4 grid w-full max-w-md grid-cols-3 gap-6 border-t border-ink/10 pt-6"
+            className="mt-4 grid w-full max-w-md grid-cols-3 gap-6 border-t border-border pt-6"
           >
             {about.stats.map((stat) => (
               <div key={stat.label} className="flex flex-col gap-1">
-                <dt className="order-2 text-xs uppercase tracking-wide text-stone">
+                <dt className="order-2 text-xs uppercase tracking-wide text-muted-foreground">
                   {stat.label}
                 </dt>
-                <dd className="order-1 font-serif text-2xl font-semibold text-ink sm:text-3xl">
+                <dd className="order-1 font-serif text-2xl font-semibold text-foreground sm:text-3xl">
                   {stat.value}
                 </dd>
               </div>
@@ -101,9 +101,9 @@ export function Hero() {
         >
           <div
             aria-hidden
-            className="absolute -bottom-5 -right-5 -z-10 h-full w-full rounded-[2rem] border border-gold/40"
+            className="absolute -bottom-5 -right-5 -z-10 h-full w-full rounded-[2rem] border border-secondary/40"
           />
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-2xl shadow-ink/20">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-2xl shadow-foreground/20">
             <Image
               src={hero.image}
               alt={hero.imageAlt}
@@ -118,16 +118,16 @@ export function Hero() {
             initial={{ opacity: 0, y: reduce ? 0 : 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: EASE, delay: 0.7 }}
-            className="absolute -bottom-6 start-4 flex items-center gap-3 rounded-2xl border border-ink/5 bg-cream/95 px-5 py-4 shadow-xl shadow-ink/10 backdrop-blur sm:-start-6"
+            className="absolute -bottom-6 start-4 flex items-center gap-3 rounded-2xl border border-border bg-background/95 px-5 py-4 shadow-xl shadow-foreground/10 backdrop-blur sm:-start-6"
           >
-            <div className="flex gap-0.5 text-gold">
+            <div className="flex gap-0.5 text-secondary">
               {Array.from({ length: 5 }).map((_, i) => (
                 <StarIcon key={i} className="h-4 w-4" />
               ))}
             </div>
             <div className="leading-tight">
-              <p className="text-sm font-semibold text-ink">דירוג 4.9 / 5</p>
-              <p className="text-xs text-stone">800+ ביקורות חמישה כוכבים</p>
+              <p className="text-sm font-semibold text-foreground">דירוג 4.9 / 5</p>
+              <p className="text-xs text-muted-foreground">800+ ביקורות חמישה כוכבים</p>
             </div>
           </motion.div>
         </motion.div>

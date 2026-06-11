@@ -10,16 +10,16 @@ function Wordmark({ className = "" }: { className?: string }) {
     <a
       href="#home"
       aria-label={`${brand.fullName} — חזרה לראש העמוד`}
-      className={`group flex shrink-0 items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent sm:gap-2.5 ${className}`}
+      className={`group flex shrink-0 items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-transparent sm:gap-2.5 ${className}`}
     >
-      <span className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 text-ink transition-colors duration-300 group-hover:border-gold group-hover:text-gold">
+      <span className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground transition-colors duration-300 group-hover:border-secondary group-hover:text-secondary">
         <ScissorsIcon className="h-4 w-4" />
       </span>
       <span className="flex flex-col leading-none">
-        <span className="font-serif text-lg font-semibold tracking-tight text-ink">
+        <span className="font-serif text-lg font-semibold tracking-tight text-foreground">
           {brand.name}
         </span>
-        <span className="text-[0.62rem] font-medium uppercase tracking-[0.22em] text-stone">
+        <span className="text-[0.62rem] font-medium uppercase tracking-[0.22em] text-muted-foreground">
           עיצוב שיער
         </span>
       </span>
@@ -60,7 +60,7 @@ export function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-ink/10 bg-cream/85 backdrop-blur-md shadow-sm shadow-ink/5"
+          ? "border-b border-border bg-background/85 backdrop-blur-md shadow-sm shadow-foreground/5"
           : "border-b border-transparent bg-transparent"
       }`}
     >
@@ -72,7 +72,7 @@ export function Navbar() {
 
         <a
           href="#contact"
-          className="order-2 ms-auto inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-ink px-4 py-2 text-[0.8125rem] font-medium text-cream transition-all duration-300 hover:bg-gold hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream lg:order-3 lg:ms-0 lg:px-5 lg:py-2.5 lg:text-sm"
+          className="order-2 ms-auto inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-accent px-4 py-2 text-[0.8125rem] font-medium text-accent-foreground transition-all duration-300 hover:bg-accent-hover hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background lg:order-3 lg:ms-0 lg:px-5 lg:py-2.5 lg:text-sm"
         >
           לקביעת תור
         </a>
@@ -88,14 +88,14 @@ export function Navbar() {
                   href={`#${item.id}`}
                   aria-current={isActive ? "true" : undefined}
                   className={`relative block whitespace-nowrap rounded-full px-1.5 py-1.5 text-[0.8125rem] font-medium transition-colors duration-200 lg:px-4 lg:py-2 lg:text-sm ${
-                    isActive ? "text-ink" : "text-stone hover:text-ink"
+                    isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {item.label}
                   {isActive ? (
                     <motion.span
                       layoutId="nav-active"
-                      className="absolute inset-x-1.5 -bottom-0.5 h-px bg-gold lg:inset-x-3"
+                      className="absolute inset-x-1.5 -bottom-0.5 h-px bg-primary lg:inset-x-3"
                       transition={{ type: "spring", stiffness: 400, damping: 32 }}
                     />
                   ) : null}

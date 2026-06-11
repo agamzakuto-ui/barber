@@ -1,15 +1,42 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand palette — warm, elegant neutrals with a soft gold accent */
-  --color-cream: #f7f3ed;
-  --color-sand: #ece4d8;
-  --color-ink: #1c1916;
-  --color-ink-soft: #3d3833;
-  --color-stone: #6f655a;
-  --color-muted: #8a8074;
-  --color-gold: #b08d57;
-  --color-gold-soft: #c9ad81;
+  /* ── Semantic color tokens — single source of truth ──────────────────
+     Re-theming the site means editing values here ONLY. Components consume
+     these by role (bg-background, text-foreground, bg-primary, …) and never
+     hardcode colors. */
+
+  /* Neutrals / surfaces */
+  --color-background: #f7f3ef;
+  --color-surface: #ede3dd;
+  --color-surface-alt: #e3d6cf; /* subtle deeper neutral for stacked surfaces */
+
+  /* Text */
+  --color-foreground: #241a1d;
+  --color-muted-foreground: #7d6c72;
+
+  /* Lines */
+  --color-border: #d8c9c3;
+
+  /* Brand / primary — dark plum: brand sections, selected states, primary buttons */
+  --color-primary: #4b2e3c;
+  --color-primary-foreground: #f7f3ef;
+
+  /* Secondary — soft mauve: decorative highlights, eyebrows, gentle emphasis */
+  --color-secondary: #a47c8c;
+  --color-secondary-foreground: #f7f3ef;
+
+  /* Accent — coral: reserved for the booking CTA + focus ring */
+  --color-accent: #c45a67;
+  --color-accent-hover: #a94a57;
+  --color-accent-foreground: #ffffff;
+
+  /* Focus ring (conversion-aligned) */
+  --color-ring: var(--color-accent);
+
+  /* Functional brand colors */
+  --color-whatsapp: #25d366;
+  --color-destructive: #dc2626;
 
   /* Typography */
   --font-serif: var(--font-heading), Georgia, "Times New Roman", serif;
@@ -17,9 +44,6 @@
 }
 
 :root {
-  --background: var(--color-cream);
-  --foreground: var(--color-ink);
-
   /* Sticky header height — taller on mobile (two rows), compact on desktop */
   --spacing-header: 5.75rem;
 }
@@ -39,8 +63,8 @@
   }
 
   body {
-    background-color: var(--background);
-    color: var(--foreground);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
     font-family: var(--font-sans);
     text-rendering: optimizeLegibility;
   }
@@ -54,8 +78,8 @@
   }
 
   ::selection {
-    background-color: var(--color-gold);
-    color: var(--color-cream);
+    background-color: var(--color-secondary);
+    color: var(--color-background);
   }
 }
 
@@ -68,6 +92,6 @@
 /* Refined custom scrollbar */
 @supports (scrollbar-color: auto) {
   html {
-    scrollbar-color: var(--color-gold-soft) transparent;
+    scrollbar-color: var(--color-secondary) transparent;
   }
 }

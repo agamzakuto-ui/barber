@@ -20,14 +20,14 @@ const values = [
 
 export function About() {
   return (
-    <section id="about" className="bg-cream py-24 sm:py-28">
+    <section id="about" className="bg-background py-24 sm:py-28">
       <Container className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
         <Reveal direction="left" className="relative order-2 lg:order-1">
           <div
             aria-hidden
-            className="absolute -left-5 -top-5 -z-10 h-full w-full rounded-[2rem] bg-sand"
+            className="absolute -left-5 -top-5 -z-10 h-full w-full rounded-[2rem] bg-surface"
           />
-          <div className="relative aspect-[5/6] overflow-hidden rounded-[2rem] shadow-xl shadow-ink/10">
+          <div className="relative aspect-[5/6] overflow-hidden rounded-[2rem] shadow-xl shadow-foreground/10">
             <Image
               src={about.image}
               alt={about.imageAlt}
@@ -48,7 +48,7 @@ export function About() {
           <div className="flex flex-col gap-4">
             {about.paragraphs.map((paragraph, i) => (
               <Reveal key={i} delay={0.05 * i}>
-                <p className="text-base leading-relaxed text-stone sm:text-lg">
+                <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
                   {paragraph}
                 </p>
               </Reveal>
@@ -58,10 +58,10 @@ export function About() {
           <StaggerGroup className="mt-2 grid gap-x-8 gap-y-6 sm:grid-cols-3">
             {values.map((value) => (
               <StaggerItem key={value.title} className="flex flex-col gap-2">
-                <span className="font-serif text-base font-semibold text-ink">
+                <span className="font-serif text-base font-semibold text-foreground">
                   {value.title}
                 </span>
-                <span className="text-sm leading-relaxed text-stone">
+                <span className="text-sm leading-relaxed text-muted-foreground">
                   {value.body}
                 </span>
               </StaggerItem>

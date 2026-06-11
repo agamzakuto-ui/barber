@@ -60,18 +60,18 @@ function ServiceSelect({
         aria-expanded={open}
         aria-invalid={invalid ? "true" : undefined}
         aria-describedby={describedBy}
-        className={`flex w-full items-center justify-between gap-3 border border-ink/15 bg-cream px-4 py-3 text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/30 ${
+        className={`flex w-full items-center justify-between gap-3 border border-border bg-background px-4 py-3 text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 ${
           open
-            ? "rounded-2xl border-gold ring-2 ring-gold/30"
-            : "rounded-xl focus-visible:border-gold"
-        } ${invalid ? "border-red-500" : ""}`}
+            ? "rounded-2xl border-ring ring-2 ring-ring/30"
+            : "rounded-xl focus-visible:border-ring"
+        } ${invalid ? "border-destructive" : ""}`}
       >
-        <span className={value ? "text-ink" : "text-stone/60"}>
+        <span className={value ? "text-foreground" : "text-muted-foreground/60"}>
           {value || "בחרו שירות"}
         </span>
         <ChevronDownIcon
-          className={`me-1 h-4 w-4 shrink-0 text-stone transition-transform duration-200 ${
-            open ? "rotate-180 text-gold" : ""
+          className={`me-1 h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ${
+            open ? "rotate-180 text-ring" : ""
           }`}
         />
       </button>
@@ -84,7 +84,7 @@ function ServiceSelect({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.18, ease: EASE }}
-            className="absolute z-20 mt-2 max-h-72 w-full overflow-auto rounded-2xl border border-ink/10 bg-cream p-1.5 shadow-xl shadow-ink/10"
+            className="absolute z-20 mt-2 max-h-72 w-full overflow-auto rounded-2xl border border-border bg-background p-1.5 shadow-xl shadow-foreground/10"
           >
             {services.map((service) => {
               const active = value === service.title;
@@ -100,8 +100,8 @@ function ServiceSelect({
                     }}
                     className={`w-full rounded-xl px-3 py-2.5 text-right text-sm transition-colors duration-150 ${
                       active
-                        ? "bg-ink text-cream"
-                        : "text-ink hover:bg-gold/10 hover:text-ink"
+                        ? "bg-primary text-primary-foreground"
+                        : "text-foreground hover:bg-secondary/10 hover:text-foreground"
                     }`}
                   >
                     {service.title}
@@ -119,9 +119,9 @@ function ServiceSelect({
 }
 
 const fieldClass =
-  "w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink placeholder:text-stone/60 transition-colors duration-200 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/30";
+  "w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 transition-colors duration-200 focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/30";
 
-const labelClass = "text-sm font-medium text-ink";
+const labelClass = "text-sm font-medium text-foreground";
 
 /**
  * Days the studio takes bookings: Sunday + Tuesday–Friday.
@@ -262,7 +262,7 @@ export function ContactForm() {
   }
 
   return (
-    <div className="relative rounded-3xl border border-ink/10 bg-white/60 p-6 shadow-xl shadow-ink/5 sm:p-8">
+    <div className="relative rounded-3xl border border-border bg-background/70 p-6 shadow-xl shadow-foreground/5 sm:p-8">
       <AnimatePresence mode="wait">
         {submitted ? (
           <motion.div
@@ -273,20 +273,20 @@ export function ContactForm() {
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="flex min-h-[20rem] flex-col items-center justify-center gap-3 text-center"
           >
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gold/15 text-2xl text-gold">
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-secondary/15 text-2xl text-secondary">
               ✓
             </span>
-            <h3 className="font-serif text-2xl font-semibold text-ink">
+            <h3 className="font-serif text-2xl font-semibold text-foreground">
               הבקשה התקבלה
             </h3>
-            <p className="max-w-sm text-sm text-stone">
+            <p className="max-w-sm text-sm text-muted-foreground">
               תודה — נפתחה עבורכם שיחת וואטסאפ עם ההודעה. שלחו אותה ונחזור אליכם
               תוך יום עסקים אחד.
             </p>
             <button
               type="button"
               onClick={() => setSubmitted(false)}
-              className="mt-2 text-sm font-medium text-gold underline-offset-4 hover:underline"
+              className="mt-2 text-sm font-medium text-secondary underline-offset-4 hover:underline"
             >
               שליחת בקשה נוספת
             </button>
@@ -338,11 +338,11 @@ export function ContactForm() {
                     if (phoneError) setPhoneError(null);
                   }}
                   className={`${fieldClass} text-right ${
-                    phoneError ? "border-red-500 focus:border-red-500 focus:ring-red-500/30" : ""
+                    phoneError ? "border-destructive focus:border-destructive focus:ring-destructive/30" : ""
                   }`}
                 />
                 {phoneError ? (
-                  <p id={phoneErrorId} className="text-xs text-red-600">
+                  <p id={phoneErrorId} className="text-xs text-destructive">
                     {phoneError}
                   </p>
                 ) : null}
@@ -364,7 +364,7 @@ export function ContactForm() {
                 describedBy={serviceError ? serviceErrorId : undefined}
               />
               {serviceError ? (
-                <p id={serviceErrorId} className="text-xs text-red-600">
+                <p id={serviceErrorId} className="text-xs text-destructive">
                   {serviceError}
                 </p>
               ) : null}
@@ -396,16 +396,16 @@ export function ContactForm() {
                       aria-describedby={dateError ? dateErrorId : undefined}
                       className={`${fieldClass} block box-border min-w-0 [color-scheme:light] [@media(pointer:coarse)]:appearance-none [&::-webkit-date-and-time-value]:text-right [&::-webkit-datetime-edit]:p-0 ${
                         dateError
-                          ? "border-red-500 focus:border-red-500 focus:ring-red-500/30"
+                          ? "border-destructive focus:border-destructive focus:ring-destructive/30"
                           : ""
                       }`}
                     />
                     {dateError ? (
-                      <p id={dateErrorId} className="text-xs text-red-600">
+                      <p id={dateErrorId} className="text-xs text-destructive">
                         {dateError}
                       </p>
                     ) : (
-                      <p className="text-xs text-stone/70">
+                      <p className="text-xs text-muted-foreground/70">
                         זמינות לתורים: ימים א׳, ג׳–ו׳, בין 08:00 ל-17:00.
                       </p>
                     )}
@@ -426,7 +426,7 @@ export function ContactForm() {
                 >
                   <div className="flex flex-col gap-2 pt-1">
                     <span className={`${labelClass} flex items-center gap-2`}>
-                      <ClockIcon className="h-4 w-4 text-gold" />
+                      <ClockIcon className="h-4 w-4 text-secondary" />
                       בחרו שעה
                     </span>
                     <div
@@ -448,10 +448,10 @@ export function ContactForm() {
                               setTimeError(null);
                               setEditing(false);
                             }}
-                            className={`rounded-xl border px-2 py-2.5 text-sm font-medium tabular-nums transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/40 ${
+                            className={`rounded-xl border px-2 py-2.5 text-sm font-medium tabular-nums transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 ${
                               active
-                                ? "border-ink bg-ink text-cream shadow-sm shadow-ink/20"
-                                : "border-ink/15 bg-cream text-ink hover:border-gold hover:text-gold"
+                                ? "border-primary bg-primary text-primary-foreground shadow-sm shadow-foreground/20"
+                                : "border-border bg-background text-foreground hover:border-secondary hover:text-secondary"
                             }`}
                           >
                             {slot}
@@ -460,7 +460,7 @@ export function ContactForm() {
                       })}
                     </div>
                     {timeError ? (
-                      <p className="text-xs text-red-600">{timeError}</p>
+                      <p className="text-xs text-destructive">{timeError}</p>
                     ) : null}
                   </div>
                 </motion.div>
@@ -477,9 +477,9 @@ export function ContactForm() {
                   transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
-                  <div className="flex items-center justify-between gap-3 rounded-xl border border-gold/40 bg-gold/10 px-4 py-3">
-                    <span className="flex items-center gap-2 text-sm text-ink">
-                      <ClockIcon className="h-4 w-4 shrink-0 text-gold" />
+                  <div className="flex items-center justify-between gap-3 rounded-xl border border-secondary/40 bg-secondary/10 px-4 py-3">
+                    <span className="flex items-center gap-2 text-sm text-foreground">
+                      <ClockIcon className="h-4 w-4 shrink-0 text-secondary" />
                       <span>
                         {formatDateLabel(date)} · בשעה{" "}
                         <span className="font-semibold tabular-nums" dir="ltr">
@@ -493,7 +493,7 @@ export function ContactForm() {
                         setEditing(true);
                         setTimeError(null);
                       }}
-                      className="shrink-0 text-sm font-medium text-gold underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/40"
+                      className="shrink-0 text-sm font-medium text-secondary underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
                     >
                       שינוי תאריך ושעה
                     </button>
@@ -517,7 +517,7 @@ export function ContactForm() {
 
             <button
               type="submit"
-              className="group mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-cream transition-all duration-300 hover:bg-gold hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gold/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+              className="group mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-accent-foreground transition-all duration-300 hover:bg-accent-hover hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <CalendarIcon className="h-4 w-4" />
               קביעת תור

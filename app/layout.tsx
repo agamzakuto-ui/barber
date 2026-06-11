@@ -47,7 +47,7 @@ export default function RootLayout({
       dir="rtl"
       className={`${frankRuhl.variable} ${assistant.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-cream text-ink">
+      <body className="min-h-full bg-background text-foreground">
         <MotionProvider>{children}</MotionProvider>
       </body>
     </html>

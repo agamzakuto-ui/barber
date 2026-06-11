@@ -10,7 +10,7 @@ const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
 
 export function Contact() {
   return (
-    <section id="contact" className="bg-sand/50 py-24 sm:py-28">
+    <section id="contact" className="bg-surface/50 py-24 sm:py-28">
       <Container className="grid gap-14 lg:grid-cols-2 lg:gap-20">
         <div className="flex flex-col gap-10">
           <SectionHeading
@@ -24,14 +24,14 @@ export function Contact() {
             <dl className="flex flex-col gap-5">
               {contact.details.map((detail) => (
                 <div key={detail.label} className="flex flex-col gap-1">
-                  <dt className="text-xs font-medium uppercase tracking-[0.18em] text-gold">
+                  <dt className="text-xs font-medium uppercase tracking-[0.18em] text-secondary">
                     {detail.label}
                   </dt>
-                  <dd className="text-base text-ink">
+                  <dd className="text-base text-foreground">
                     {detail.href ? (
                       <a
                         href={detail.href}
-                        className="transition-colors hover:text-gold"
+                        className="transition-colors hover:text-secondary"
                       >
                         {detail.value}
                       </a>
@@ -47,24 +47,24 @@ export function Contact() {
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex w-fit items-center justify-center gap-2 rounded-full bg-[#25D366] px-7 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#25D366]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
+              className="group inline-flex w-fit items-center justify-center gap-2 rounded-full bg-whatsapp px-7 py-3.5 text-sm font-medium text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-whatsapp/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
             >
               <WhatsAppIcon className="h-5 w-5" />
               צרו קשר בוואטסאפ
             </a>
 
-            <div className="flex flex-col gap-3 border-t border-ink/10 pt-6">
-              <span className="text-xs font-medium uppercase tracking-[0.18em] text-gold">
+            <div className="flex flex-col gap-3 border-t border-border pt-6">
+              <span className="text-xs font-medium uppercase tracking-[0.18em] text-secondary">
                 שעות פעילות
               </span>
               <ul className="flex flex-col gap-2">
                 {contact.hours.map((slot) => (
                   <li
                     key={slot.day}
-                    className="flex items-center justify-between text-sm text-stone"
+                    className="flex items-center justify-between text-sm text-muted-foreground"
                   >
                     <span>{slot.day}</span>
-                    <span className="font-medium text-ink">{slot.time}</span>
+                    <span className="font-medium text-foreground">{slot.time}</span>
                   </li>
                 ))}
               </ul>

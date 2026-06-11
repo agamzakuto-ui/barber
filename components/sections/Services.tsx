@@ -5,7 +5,7 @@ import { ScissorsIcon } from "@/components/icons";
 
 export function Services() {
   return (
-    <section id="services" className="bg-sand/50 py-24 sm:py-28">
+    <section id="services" className="bg-surface/50 py-24 sm:py-28">
       <Container>
         <SectionHeading
           eyebrow="מה אנחנו עושים"
@@ -16,28 +16,28 @@ export function Services() {
         <StaggerGroup className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
             <StaggerItem key={service.title} className="h-full">
-              <article className="group flex h-full flex-col gap-5 rounded-2xl border border-ink/8 bg-cream p-8 transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/50 hover:shadow-xl hover:shadow-ink/10">
+              <article className="group flex h-full flex-col gap-5 rounded-2xl border border-border bg-background p-8 transition-all duration-300 hover:-translate-y-1.5 hover:border-secondary/50 hover:shadow-xl hover:shadow-foreground/10">
                 <div className="flex items-center justify-between">
-                  <span className="font-serif text-sm font-semibold text-gold">
+                  <span className="font-serif text-sm font-semibold text-secondary">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-ink/5 text-ink transition-colors duration-300 group-hover:bg-gold group-hover:text-cream">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/5 text-foreground transition-colors duration-300 group-hover:bg-secondary group-hover:text-secondary-foreground">
                     <ScissorsIcon className="h-5 w-5" />
                   </span>
                 </div>
 
-                <h3 className="font-serif text-xl font-semibold text-ink">
+                <h3 className="font-serif text-xl font-semibold text-foreground">
                   {service.title}
                 </h3>
-                <p className="flex-1 text-sm leading-relaxed text-stone">
+                <p className="flex-1 text-sm leading-relaxed text-muted-foreground">
                   {service.description}
                 </p>
 
-                <div className="flex items-center justify-between border-t border-ink/10 pt-4">
-                  <span className="text-sm font-medium text-ink">
+                <div className="flex items-center justify-between border-t border-border pt-4">
+                  <span className="text-sm font-medium text-foreground">
                     {service.price}
                   </span>
-                  <span className="text-xs font-medium tracking-[0.12em] text-gold opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="text-xs font-medium tracking-[0.12em] text-secondary opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     להזמנה ←
                   </span>
                 </div>
