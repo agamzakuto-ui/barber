@@ -168,6 +168,221 @@ function formatDateLabel(value: string) {
   });
 }
 
+/** Hebrew single-letter weekday headers, Sunday → Saturday. */
+const HEB_WEEKDAYS = ["א", "ב", "ג", "ד", "ה", "ו", "ש"] as const;
+
+function startOfDay(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function startOfMonth(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
+function isSameDay(a: Date, b: Date) {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
+}
+
+function toDateValue(date: Date) {
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
+/**
+ * Custom calendar so non-booking days (Mon/Sat) and past days are visible but
+ * not selectable — a native <input type="date"> can't disable weekdays.
+ */
+function DatePicker({
+  value,
+  onChange,
+  id,
+  invalid,
+  describedBy,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  id: string;
+  invalid?: boolean;
+  describedBy?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const today = useMemo(() => startOfDay(new Date()), []);
+  const selected = value ? parseLocalDate(value) : null;
+  const [viewMonth, setViewMonth] = useState(() =>
+    startOfMonth(selected ?? today),
+  );
+
+  useEffect(() => {
+    if (!open) return;
+    function onPointerDown(event: MouseEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    }
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  const firstWeekday = viewMonth.getDay();
+  const daysInMonth = new Date(
+    viewMonth.getFullYear(),
+    viewMonth.getMonth() + 1,
+    0,
+  ).getDate();
+
+  const cells: (Date | null)[] = [];
+  for (let i = 0; i < firstWeekday; i += 1) cells.push(null);
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    cells.push(new Date(viewMonth.getFullYear(), viewMonth.getMonth(), day));
+  }
+
+  const canGoPrev = viewMonth.getTime() > startOfMonth(today).getTime();
+  const monthLabel = viewMonth.toLocaleDateString("he-IL", {
+    month: "long",
+    year: "numeric",
+  });
+
+  const navClass =
+    "flex h-8 w-8 items-center justify-center rounded-full text-foreground transition-colors hover:bg-secondary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent";
+
+  return (
+    <div ref={containerRef} className="relative">
+      <button
+        type="button"
+        id={id}
+        onClick={() => setOpen((prev) => !prev)}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-invalid={invalid ? "true" : undefined}
+        aria-describedby={describedBy}
+        className={`flex w-full items-center justify-between gap-3 border border-border bg-background px-4 py-3 text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 ${
+          open
+            ? "rounded-2xl border-ring ring-2 ring-ring/30"
+            : "rounded-xl focus-visible:border-ring"
+        } ${invalid ? "border-destructive" : ""}`}
+      >
+        <span className={value ? "text-foreground" : "text-muted-foreground/60"}>
+          {value ? formatDateLabel(value) : "בחרו תאריך"}
+        </span>
+        <CalendarIcon
+          className={`me-1 h-4 w-4 shrink-0 text-muted-foreground transition-colors duration-200 ${
+            open ? "text-ring" : ""
+          }`}
+        />
+      </button>
+
+      <AnimatePresence initial={false}>
+        {open ? (
+          <motion.div
+            key="calendar"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: EASE }}
+            className="overflow-hidden"
+          >
+            <div
+              role="dialog"
+              aria-label="בחירת תאריך"
+              className="mt-2 rounded-2xl border border-border bg-background p-3 shadow-sm shadow-foreground/5"
+            >
+              <div className="flex items-center justify-between pb-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setViewMonth(
+                      (prev) =>
+                        new Date(prev.getFullYear(), prev.getMonth() - 1, 1),
+                    )
+                  }
+                  disabled={!canGoPrev}
+                  aria-label="חודש קודם"
+                  className={navClass}
+                >
+                  <ChevronDownIcon className="h-4 w-4 -rotate-90" />
+                </button>
+                <span className="text-sm font-medium text-foreground">
+                  {monthLabel}
+                </span>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setViewMonth(
+                      (prev) =>
+                        new Date(prev.getFullYear(), prev.getMonth() + 1, 1),
+                    )
+                  }
+                  aria-label="חודש הבא"
+                  className={navClass}
+                >
+                  <ChevronDownIcon className="h-4 w-4 rotate-90" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-7 gap-1 pb-1">
+                {HEB_WEEKDAYS.map((weekday) => (
+                  <span
+                    key={weekday}
+                    className="flex h-7 items-center justify-center text-xs font-medium text-muted-foreground/70"
+                  >
+                    {weekday}
+                  </span>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-7 gap-1">
+                {cells.map((day, index) => {
+                  if (!day) return <span key={`empty-${index}`} />;
+                  const isPast = day.getTime() < today.getTime();
+                  const isBookable = BOOKING_DAYS.has(day.getDay());
+                  const disabled = isPast || !isBookable;
+                  const isSelected = selected ? isSameDay(day, selected) : false;
+                  return (
+                    <button
+                      key={toDateValue(day)}
+                      type="button"
+                      disabled={disabled}
+                      aria-current={isSelected ? "date" : undefined}
+                      onClick={() => {
+                        onChange(toDateValue(day));
+                        setOpen(false);
+                      }}
+                      className={`flex h-9 items-center justify-center rounded-lg text-sm tabular-nums transition-colors duration-150 ${
+                        isSelected
+                          ? "bg-primary font-semibold text-primary-foreground"
+                          : disabled
+                            ? "cursor-not-allowed text-muted-foreground/30"
+                            : "text-foreground hover:bg-secondary/10"
+                      }`}
+                    >
+                      {day.getDate()}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
   const [phone, setPhone] = useState("");
@@ -189,10 +404,6 @@ export function ContactForm() {
   const messageId = useId();
 
   const timeSlots = useMemo(buildTimeSlots, []);
-  const minDate = useMemo(() => {
-    const now = new Date();
-    return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
-  }, []);
 
   const selectionConfirmed =
     Boolean(date) && !dateError && Boolean(time) && !editing;
@@ -384,21 +595,12 @@ export function ContactForm() {
                     <label htmlFor={dateId} className={labelClass}>
                       תאריך מועדף
                     </label>
-                    <input
+                    <DatePicker
                       id={dateId}
-                      name="date"
-                      type="date"
-                      required
-                      min={minDate}
                       value={date}
-                      onChange={(event) => handleDateChange(event.target.value)}
-                      aria-invalid={dateError ? "true" : undefined}
-                      aria-describedby={dateError ? dateErrorId : undefined}
-                      className={`${fieldClass} block box-border min-w-0 [color-scheme:light] [@media(pointer:coarse)]:appearance-none [&::-webkit-date-and-time-value]:text-right [&::-webkit-datetime-edit]:p-0 ${
-                        dateError
-                          ? "border-destructive focus:border-destructive focus:ring-destructive/30"
-                          : ""
-                      }`}
+                      onChange={handleDateChange}
+                      invalid={Boolean(dateError)}
+                      describedBy={dateError ? dateErrorId : undefined}
                     />
                     {dateError ? (
                       <p id={dateErrorId} className="text-xs text-destructive">

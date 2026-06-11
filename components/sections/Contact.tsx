@@ -10,9 +10,9 @@ const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
 
 export function Contact() {
   return (
-    <section id="contact" className="bg-surface/50 py-24 sm:py-28">
-      <Container className="grid gap-14 lg:grid-cols-2 lg:gap-20">
-        <div className="flex flex-col gap-10">
+    <section id="contact" className="bg-surface/50 py-16 sm:py-28">
+      <Container className="grid gap-10 sm:gap-14 lg:grid-cols-2 lg:gap-20">
+        <div className="flex flex-col gap-7 sm:gap-10">
           <SectionHeading
             align="left"
             eyebrow={contact.eyebrow}
@@ -20,7 +20,7 @@ export function Contact() {
             description={contact.description}
           />
 
-          <Reveal delay={0.1} className="flex flex-col gap-8">
+          <Reveal delay={0.1} className="flex flex-col gap-6 sm:gap-8">
             <dl className="flex flex-col gap-5">
               {contact.details.map((detail) => (
                 <div key={detail.label} className="flex flex-col gap-1">
@@ -61,7 +61,7 @@ export function Contact() {
                 {contact.hours.map((slot) => (
                   <li
                     key={slot.day}
-                    className="flex items-center justify-between text-sm text-muted-foreground"
+                    className="flex items-center justify-start gap-4 text-sm text-muted-foreground sm:justify-between sm:gap-0"
                   >
                     <span>{slot.day}</span>
                     <span className="font-medium text-foreground">{slot.time}</span>
