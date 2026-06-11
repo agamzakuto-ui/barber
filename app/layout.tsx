@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Assistant, Frank_Ruhl_Libre } from "next/font/google";
 import "./globals.css";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 
 const frankRuhl = Frank_Ruhl_Libre({
   variable: "--font-heading",
@@ -46,7 +47,9 @@ export default function RootLayout({
       dir="rtl"
       className={`${frankRuhl.variable} ${assistant.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-cream text-ink">{children}</body>
+      <body className="min-h-full bg-cream text-ink">
+        <MotionProvider>{children}</MotionProvider>
+      </body>
     </html>
   );
 }

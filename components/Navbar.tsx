@@ -78,7 +78,9 @@ export function Navbar() {
         </a>
 
         <ul className="order-3 flex w-full items-center justify-between gap-0.5 lg:order-2 lg:w-auto lg:flex-1 lg:justify-center lg:gap-1">
-          {navItems.map((item) => {
+          {navItems
+            .filter((item) => item.id !== "contact")
+            .map((item) => {
             const isActive = active === item.id;
             return (
               <li key={item.id} className="shrink-0">
