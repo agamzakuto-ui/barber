@@ -394,7 +394,7 @@ export function ContactForm() {
                       onChange={(event) => handleDateChange(event.target.value)}
                       aria-invalid={dateError ? "true" : undefined}
                       aria-describedby={dateError ? dateErrorId : undefined}
-                      className={`${fieldClass} [color-scheme:light] ${
+                      className={`${fieldClass} block box-border min-w-0 [color-scheme:light] [@media(pointer:coarse)]:appearance-none [&::-webkit-date-and-time-value]:text-right [&::-webkit-datetime-edit]:p-0 ${
                         dateError
                           ? "border-red-500 focus:border-red-500 focus:ring-red-500/30"
                           : ""
